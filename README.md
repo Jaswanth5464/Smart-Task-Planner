@@ -7,6 +7,9 @@ Timeline (When to do it)
 Dependencies (What must be done before what)
 
 file stucture :
+
+
+
 ![alt text](image.png)
 
 Think of it as having a project manager AI that understands your goal and creates a detailed action plan instantly.
