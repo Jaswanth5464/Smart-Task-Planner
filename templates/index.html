@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Task Planner - AI-Powered Project Planning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .input-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        .project-header {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .project-title {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .project-stats {
+            display: flex;
+            gap: 30px;
+            color: #666;
+        }
+
+        .task-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+            transition: transform 0.2s;
+        }
+
+        .task-card:hover {
+            transform: translateX(5px);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+
+        .task-name {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .priority-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: #fee;
+            color: #c33;
+        }
+
+        .priority-medium {
+            background: #ffeaa7;
+            color: #d63031;
+        }
+
+        .priority-low {
+            background: #dfe6e9;
+            color: #636e72;
+        }
+
+        .task-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dependencies {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .dependency-tag {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            margin-right: 5px;
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Smart Task Planner</h1>
+            <h1>By</h1>
+            <h1>jaswanth.kanamarlapudi(22BCE9519)</h1>
+            <p class="subtitle">AI-Powered Project Planning with Gemini</p>
+        </header>
+
+        <div class="input-section">
+            <form id="plannerForm">
+                <div class="form-group">
+                    <label for="goal">📌 What's Your Goal?</label>
+                    <textarea 
+                        id="goal" 
+                        name="goal" 
+                        placeholder="E.g., Launch an e-commerce website, Write a research paper, Plan a wedding..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="deadline">⏱️ Deadline (in days)</label>
+                    <input 
+                        type="number" 
+                        id="deadline" 
+                        name="deadline" 
+                        min="1" 
+                        max="365" 
+                        value="30"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn" id="generateBtn">
+                    ✨ Generate Task Plan
+                </button>
+            </form>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="color: white; font-size: 1.2em;">AI is crafting your perfect plan...</p>
+        </div>
+
+        <div class="results" id="results"></div>
+    </div>
+
+    <script>
+        document.getElementById('plannerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const goal = document.getElementById('goal').value;
+            const deadline = document.getElementById('deadline').value;
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+            const btn = document.getElementById('generateBtn');
+            
+            // Show loading
+            loading.classList.add('active');
+            results.classList.remove('active');
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch('/api/generate-plan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        goal: goal,
+                        deadline_days: parseInt(deadline)
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    results.innerHTML = `<div class="error">❌ Error: ${data.error}</div>`;
+                } else {
+                    displayResults(data);
+                }
+                
+            } catch (error) {
+                results.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            } finally {
+                loading.classList.remove('active');
+                results.classList.add('active');
+                btn.disabled = false;
+            }
+        });
+        
+        function displayResults(plan) {
+            const results = document.getElementById('results');
+            
+            let html = `
+                <div class="project-header">
+                    <h2 class="project-title">${plan.project_name}</h2>
+                    <div class="project-stats">
+                        <span>📅 Duration: ${plan.total_duration} days</span>
+                        <span>📋 Tasks: ${plan.tasks.length}</span>
+                    </div>
+                </div>
+            `;
+            
+            plan.tasks.forEach(task => {
+                const priorityClass = `priority-${task.priority}`;
+                const dependencies = task.dependencies.length > 0 
+                    ? `<div class="dependencies">
+                         <strong>Depends on:</strong> 
+                         ${task.dependencies.map(dep => `<span class="dependency-tag">Task ${dep}</span>`).join('')}
+                       </div>`
+                    : '';
+                
+                html += `
+                    <div class="task-card">
+                        <div class="task-header">
+                            <div class="task-name">Task ${task.id}: ${task.name}</div>
+                            <div class="priority-badge ${priorityClass}">${task.priority}</div>
+                        </div>
+                        <div class="task-description">${task.description}</div>
+                        <div class="task-meta">
+                            <div class="meta-item">📅 ${task.start_date} → ${task.end_date}</div>
+                            <div class="meta-item">⏱️ ${task.duration_days} days</div>
+                            <div class="meta-item">📍 Day ${task.start_day}-${task.end_day}</div>
+                        </div>
+                        ${dependencies}
+                    </div>
+                `;
+            });
+            
+            results.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
