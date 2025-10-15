@@ -1,3 +1,6 @@
+vidio link for presentation :
+https://drive.google.com/file/d/1yel7u1CC_IN4BrSf-RwAk7jYIXAWz6zU/view?usp=sharing
+
 Smart Task Planner - Complete Concept Guide
 🎯 What Is It?
 A Smart Task Planner is an AI-powered application that takes a vague goal (like "Launch a product in 2 weeks") and automatically breaks it down into:
