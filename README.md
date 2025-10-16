@@ -1,122 +1,256 @@
-vidio link for presentation :
-https://drive.google.com/file/d/1-GQ-lme1NGz_gEpbxRWq1EYRc-vjIRI-/view?usp=sharing
-
-Smart Task Planner - Complete Concept Guide
-🎯 What Is It?
-A Smart Task Planner is an AI-powered application that takes a vague goal (like "Launch a product in 2 weeks") and automatically breaks it down into:
-
-Specific tasks (What to do)
-Timeline (When to do it)
-Dependencies (What must be done before what)
-
-file stucture :
 
 
+# Smart Task Planner 🧠
 
-![alt text](image.png)
+**AI-driven project planning made simple and efficient.**
 
-Think of it as having a project manager AI that understands your goal and creates a detailed action plan instantly.
-🧠 Core Concepts Explained
-1. Goal → Tasks Breakdown
+Smart Task Planner is an intelligent web app that automatically converts your project goals into a structured, actionable plan — complete with tasks, timelines, and dependencies.
 
-Input: "Launch an e-commerce website in 30 days"
-AI Processing: Analyzes the goal and identifies logical steps
-Output:
+---
 
-Task 1: Choose domain name (Day 1-2)
-Task 2: Design homepage mockup (Day 3-5, depends on Task 1)
-Task 3: Set up payment gateway (Day 10-15)
-etc.
+## 🌐 Live Links
 
+🔹 **App:** [https://jaswanth5464.pythonanywhere.com/](https://jaswanth5464.pythonanywhere.com/)
+🔹 **Demo Video:** [View on Google Drive](https://drive.google.com/file/d/1-GQ-lme1NGz_gEpbxRWq1EYRc-vjIRI-/view?usp=sharing)
+🔹 **Source Code:** [GitHub Repository](https://github.com/Jaswanth5464/smart-task-planner)
 
+---
 
-2. Dependencies
-Dependencies mean "Task B can't start until Task A is done"
+## 📘 Overview
 
-Example: You can't test a website before building it
-The AI identifies these logical relationships
+Planning complex projects manually can be time-consuming and inconsistent.
+**Smart Task Planner** automates this by generating a clear, step-by-step task breakdown from a single goal.
 
-3. Timeline Estimation
-The AI estimates how long each task takes based on:
+**What it does:**
 
-Complexity of the task
-Industry standards
-Total deadline provided
-4. LLM (Large Language Model) Role
-Gemini acts as the "brain" that:
+* Divides a goal into 5–10 well-defined tasks
+* Allocates realistic timeframes (start/end dates)
+* Maps dependencies between related tasks
+* Prioritizes them by importance
 
-Understands natural language goals
-Reasons about task sequences
-Generates realistic timelines
-Identifies what depends on what
+### Example
 
-User Input (Goal) 
-    ↓
-Backend API (Python/Node.js)
-    ↓
-Gemini AI (Processes & reasons)
-    ↓
-Structured Task Plan
-    ↓
-Database (Optional - saves plans)
-    ↓
-Frontend (Displays tasks visually)
+**Input:** “Launch an e-commerce website in 30 days”
+**Output:**
 
-Concept Mastery Map:
-1️⃣ LLM (Gemini) Role
+* Market Research (Day 1–3, High Priority)
+* Design Mockups (Day 4–7, High Priority, depends on Task 1)
+* Backend Setup (Day 8–15, High Priority)
+* ... and so on
 
-What: Gemini reads your goal and "thinks" like a project manager
-How: You send a detailed prompt → Gemini returns structured tasks
-Why: Saves hours of manual planning
-2️⃣ Prompt Engineering
-Bad Prompt: "Break down my goal"
-Good Prompt: "Break down into 5-10 tasks with dependencies, 
-             priorities, and realistic timelines in JSON format"
+---
+
+## ✨ Key Features
+
+* 🧠 **AI-Powered Planning:** Automatically breaks goals into actionable tasks
+* ⏳ **Smart Scheduling:** Distributes time efficiently across the deadline
+* 🔗 **Dependency Tracking:** Identifies task order and relationships
+* 🎯 **Prioritization:** Labels tasks as High, Medium, or Low priority
+* 💻 **Modern UI:** Clean, responsive interface
+* 🚀 **API-Ready:** Built with a modular, REST-based backend
+
+---
+
+## 🧩 Tech Stack
+
+| Component      | Technology            |
+| -------------- | --------------------- |
+| **Backend**    | Python (Flask)        |
+| **AI Engine**  | Google Gemini Pro     |
+| **Frontend**   | HTML, CSS, JavaScript |
+| **Deployment** | PythonAnywhere        |
+
+---
+
+## ⚙️ Setup & Installation
+
+### Requirements
+
+* Python 3.8 or later
+* Gemini API Key ([Get one here](https://makersuite.google.com/app/apikey))
+
+### Steps
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/smart-task-planner.git
+   cd smart-task-planner
+   ```
+
+2. **Create a virtual environment**
+
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # For Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Add your API key**
+   In `app.py`, replace the placeholder key:
+
+   ```python
+   genai.configure(api_key="YOUR_API_KEY_HERE")
+   ```
+
+5. **Run the application**
+
+   ```bash
+   python app.py
+   ```
+
+6. **Visit the app**
+
+   ```
+   http://localhost:5000
+   ```
+
+---
+
+## 💡 How to Use
+
+1. Enter your project goal (e.g., “Build a mobile app in 45 days”).
+2. Specify the deadline in days.
+3. Click **Generate Task Plan**.
+4. Instantly view the AI-generated roadmap with priorities and dependencies.
+
+**Try sample inputs:**
+
+* “Organize a tech event in 90 days”
+* “Write a research paper in 21 days”
+* “Develop a REST API in 20 days”
+
+---
+
+## 📁 Folder Structure
+
 ```
-The better the prompt = better the output
-
-3️⃣ **Dependencies Logic**
+smart-task-planner/
+├── app.py              # Flask server + AI logic
+├── templates/
+│   └── index.html      # Frontend page
+├── requirements.txt    # Dependencies
+└── README.md
 ```
-Task 1: Design mockup (no dependencies)
-Task 2: Build frontend (depends on Task 1)
-Task 3: Test website (depends on Task 2)
+
+---
+
+## 📡 API Reference
+
+### `POST /api/generate-plan`
+
+**Request Body:**
+
+```json
+{
+  "goal": "Launch a mobile app in 45 days",
+  "deadline_days": 45
+}
 ```
-Can't test before building!
 
-#### 4️⃣ **API Architecture**
+**Sample Response:**
+
+```json
+{
+  "project_name": "Mobile App Launch",
+  "total_duration": 45,
+  "tasks": [
+    {
+      "id": 1,
+      "name": "Market Research",
+      "description": "Analyze competitors and target audience",
+      "start_day": 1,
+      "end_day": 3,
+      "priority": "high",
+      "start_date": "2025-10-17",
+      "end_date": "2025-10-19"
+    }
+  ]
+}
 ```
-Frontend (HTML) 
-   ↓ (sends goal)
-Backend (Flask) 
-   ↓ (processes with Gemini)
-AI Response 
-   ↓ (formats data)
-Frontend (displays tasks)
 
- Environment Setup
+---
 
- # Install Python from python.org if needed
-pip install flask google-generativeai python-dotenv
+## 🧠 How It Works
 
+1. **User Input:** Goal + Deadline provided through the UI
+2. **Request Sent:** Frontend sends data to Flask API
+3. **Processing:** The backend sends a structured prompt to Gemini AI
+4. **AI Response:** A complete, logical task plan is returned
+5. **Result Display:** Tasks are shown with durations, dependencies, and priorities
 
- Get Gemini API Key
+---
 
-Go to https://makersuite.google.com/app/apikey
-Create new API key
-Copy it safely
+## 📦 Configuration
 
- Code the Backend
+**requirements.txt**
 
+```
+flask==3.0.0
+google-generativeai==0.3.2
+```
 
-Replace API key
-Test run: python app.py
+**Python Version:** 3.8+
+**API Key:** Insert your Gemini key in `app.py`
 
-Create templates folder
-Copy index.html code I provided
-Test in browser at localhost:5000
+---
 
-Testing
+## ☁️ Deployment
 
-Test with 3 different goals
-Check if tasks make sense
-Verify dependencies work
+Hosted on **PythonAnywhere** for continuous availability.
+
+**Live Demo:** [https://jaswanth5464.pythonanywhere.com](https://jaswanth5464.pythonanywhere.com)
+
+**Steps (Summary):**
+
+1. Upload project to PythonAnywhere
+2. Create virtual environment
+3. Install dependencies
+4. Configure the web app (WSGI)
+5. Reload to go live
+
+---
+
+## 📈 Highlights
+
+* Generates **detailed, realistic** project plans
+* Automatically adjusts timelines within deadlines
+* Uses dependency mapping for better workflow sequencing
+* Written with **clean, readable Python code**
+* Fully functional **REST API**
+
+---
+
+## 🧑‍💻 Author
+
+**Jaswanth Kanamarlapudi**
+
+* Email: [jaswanth5464@gmail.com](mailto:jaswanth5464@gmail.com)
+* GitHub: [@Jaswanth5464](https://github.com/Jaswanth5464)
+
+---
+
+## 🪄 Credits
+
+* **Google Gemini Pro** – for task generation logic
+* **Flask** – backend web framework
+* **PythonAnywhere** – for deployment hosting
+
+---
+
+## 📬 Contact
+
+For feedback or suggestions:
+📧 **[jaswanth5464@gmail.com](mailto:jaswanth5464@gmail.com)**
+🐙 [GitHub Issues](https://github.com/Jaswanth5464/smart-task-planner/issues)
+
+---
+
+**If you found this project useful, give it a ⭐ on GitHub!**
+*Last updated: October 2025*
+
