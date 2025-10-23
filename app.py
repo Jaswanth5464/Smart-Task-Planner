@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 
 # Configure Gemini API (Replace with your API key)
-genai.configure(api_key="XXXX-XXXX-XXXX")
+genai.configure(api_key="AIzaSyAUOwSvDOl_3v3c05zGsrGWp0Isau1fUgE")
 model = genai.GenerativeModel('gemini-2.5-flash')
 
 def generate_task_plan(goal, deadline_days):
