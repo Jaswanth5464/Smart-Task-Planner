@@ -200,25 +200,28 @@ google-generativeai==0.3.2
 
 ---
 
-📊 System Architecture:
-┌─────────────┐         HTTP POST          ┌──────────────┐
-│   Browser   │ ────────────────────────► │ Flask Server │
-│  (Frontend) │                            │  (Backend)   │
-└─────────────┘                            └──────────────┘
-                                                   │
-                                                   │ API Call
-                                                   ▼
-                                           ┌──────────────┐
-                                           │  Gemini AI   │
-                                           │   (LLM)      │
-                                           └──────────────┘
-                                                   │
-                                                   │ Response
-                                                   ▼
-┌─────────────┐         JSON Response      ┌──────────────┐
-│   Browser   │ ◄──────────────────────── │ Flask Server │
-│  (Results)  │                            │  (Processing)│
-└─────────────┘                            └──────────────┘
+📊 System Architecture
+────────────────────────────────────────────────────────────
+
+┌─────────────┐           HTTP POST            ┌──────────────┐
+│   Browser   │ ────────────────────────────► │ Flask Server │
+│  (Frontend) │                                │  (Backend)   │
+└─────────────┘                                └──────────────┘
+                                                     │
+                                                     │  API Call
+                                                     ▼
+                                             ┌──────────────┐
+                                             │   Gemini AI  │
+                                             │     (LLM)    │
+                                             └──────────────┘
+                                                     │
+                                                     │  Response
+                                                     ▼
+┌─────────────┐          JSON Response        ┌──────────────┐
+│   Browser   │ ◄────────────────────────── │ Flask Server  │
+│  (Results)  │                                │ (Processing)│
+└─────────────┘                                └──────────────┘
+                
 ## ☁️ Deployment
 
 Hosted on **PythonAnywhere** for continuous availability.
